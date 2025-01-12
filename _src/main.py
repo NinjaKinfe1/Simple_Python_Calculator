@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import math
+import re
 
 #For The Windows
 root = tk.Tk()
@@ -11,40 +12,45 @@ root.iconbitmap("../media/ico/icon.ico")
 root.title("Simple Python Calculator")
 root.config(bg="#f5f5f5")
 
-#Entry
-display = tk.Entry(root, width=400, font=("Open Sans ExtraBold", 50), fg="#333333", bd=0, highlightthickness=0)
-display.place(width=400, height=200)
-
-#Defining Functions for the buttons
+#Defining Functions for the buttons and entry
 def clicked_buttons(value):
     display.insert(tk.END, value)
 
 def clear():
     display.delete(0, tk.END)
 
-def calculate():
-    try:    
-        calc=display.get()
-        calc=calc.replace("×", "*")
-        calc=calc.replace("÷", "/")
-        calc=calc.replace("−", "-")
-        calc=calc.replace("π", str(math.pi))
-        calc=calc.replace("^", "**")
-        if "√" in calc:
-            calc=calc.replace("√", "math.sqrt(")
-            calc= calc + ")"
-        if "0/0" in calc:
-            messagebox.showinfo("Undefined", "The Answer is Undifined!")
-            display.delete(0, tk.END)
-            return      
+def prevent_key(event):
+        pattern= "[0-9+\-*/().π^]"
+        if not re.match(pattern, event.char):
+            return "break" 
+
+def calculate():  
+    calc=display.get()
+    calc=calc.replace("×", "*")
+    calc=calc.replace("÷", "/")
+    calc=calc.replace("−", "-")
+    calc=calc.replace("π", str(math.pi))
+    calc=calc.replace("^", "**")
+    if "√" in calc:
+        calc=calc.replace("√", "math.sqrt(")
+        calc= calc + ")"
+    if "0/0" in calc:
+        messagebox.showinfo("Undefined", "The Answer is Undifined!")
+        display.delete(0, tk.END)
+        return
+    try:      
         ans=eval(calc)
         display.delete(0, tk.END)
         display.insert(tk.END, ans)
-        
     except:
-        messagebox.showerror("Error", "Please Insert Valid Charachter!")
+        messagebox.showwarning("Invalid", "Invalid Mathematical Expression!")
         display.delete(0, tk.END)
-   
+
+#Entry
+display = tk.Entry(root, width=400, font=("Open Sans ExtraBold", 50), fg="#333333", bd=0, highlightthickness=0)
+display.place(width=400, height=200)
+display.bind("<KeyPress>", prevent_key)
+
 #Buttons
 op_plus=tk.Button(root, text="+", font=("Open Sans ExtraBold", 30), bg="#8fbc8f", fg="#2c2c2c", activebackground="#91b991", activeforeground="#383838", bd=0, highlightthickness=0, command=lambda: clicked_buttons("+"))
 op_plus.place(x=24, y=223, width=60, height=60)
