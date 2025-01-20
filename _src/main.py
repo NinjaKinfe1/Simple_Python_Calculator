@@ -20,7 +20,7 @@ def clear():
     display.delete(0, tk.END)
 
 def prevent_key(event):
-        pattern= "[0-9+\-*/().π^]"
+        pattern= r"[0-9+\-*/().π^]"
         if not re.match(pattern, event.char):
             return "break" 
 
