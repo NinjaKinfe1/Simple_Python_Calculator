@@ -21,4 +21,4 @@ To use this calculator, you don't need to install any external libraries if you 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/simple-python-calculator.git
+   git clone https://github.com/NinjaKinfe1/Simple_Python_Calculator.git
