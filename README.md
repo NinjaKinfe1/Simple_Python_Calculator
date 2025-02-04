@@ -11,7 +11,7 @@ This is a simple calculator built using Python and Tkinter. It supports basic ma
 
 ## Requirements
 
-- Python 3.x
+- Python 3.13
 - Tkinter (usually comes with Python)
 
 ## Installation
